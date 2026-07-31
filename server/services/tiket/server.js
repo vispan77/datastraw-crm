@@ -4,13 +4,15 @@ import dotenv from "dotenv";
 dotenv.config();
 import dbConnect from "./config/dbConnect.js";
 import ticketRouter from "./routes/ticketRoutes.js";
+import noteRouter from "./routes/noteRoutes.js";
 
 
 dbConnect();
 
 app.use(express.json());
 
-app.use("/", ticketRouter)
+app.use("/", ticketRouter);
+app.use("/notes", noteRouter)
 
 
 const port = process.env.PORT;
@@ -20,5 +22,5 @@ app.get("/check", (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Gateway is listening on port ${port}`)
+    console.log(`Ticket service is listening on port ${port}`)
 })

@@ -2,11 +2,11 @@ import Ticket from "../model/ticket.js";
 
 
 //ticket post kerne ke liye
-const createTicket = async(req, res) => {
-    try{
-        const {customer_name, customer_email, subject, description} = req.body;
+const createTicket = async (req, res) => {
+    try {
+        const { customer_name, customer_email, subject, description } = req.body;
 
-        if(!customer_name || !customer_email || !subject || !description){
+        if (!customer_name || !customer_email || !subject || !description) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required"
@@ -23,13 +23,13 @@ const createTicket = async(req, res) => {
         return res.status(201).json({
             success: true,
             message: "Ticket is created Successfully",
-            ticket: { 
+            ticket: {
                 _id: ticket._id,
                 createdAt: ticket.createdAt
             }
 
         })
-    }catch(error){
+    } catch (error) {
         console.log(error);
         return res.status(500).json({
             success: true,
@@ -38,8 +38,8 @@ const createTicket = async(req, res) => {
     }
 }
 
-const getAllTicket = async(req, res) => {
-    try{
+const getAllTicket = async (req, res) => {
+    try {
         const ticket = await Ticket.find();
 
         return res.status(200).json({
@@ -47,10 +47,10 @@ const getAllTicket = async(req, res) => {
             message: "All tickets are fetched successfully",
             ticketCount: ticket.length,
             ticket
-            
+
         })
 
-    }catch(error){
+    } catch (error) {
         console.log(error);
         return res.status(500).json({
             success: true,
@@ -59,7 +59,81 @@ const getAllTicket = async(req, res) => {
     }
 }
 
+
+
+const getTicketById = async (req, res) => {
+    try {
+        const { ticketId } = req.params;
+        if (!ticketId) {
+            return res.status(400).json({
+                success: false,
+                message: "Ticket Id is required"
+            })
+        }
+
+        const ticket = await Ticket.findById(ticketId);
+
+        if (!ticket) {
+            return res.status(404).json({
+                success: false,
+                message: "Ticket not found"
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Ticket is fetched successfully",
+            ticket
+
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: true,
+            message: `Something went wrong while getting ticket by id ${error}`
+        })
+    }
+}
+
+
+const updateTicketStatus = async (req, res) => {
+    try {
+        const { ticketId } = req.params;
+        if (!ticketId) {
+            return res.status(400).json({
+                success: false,
+                message: "Ticket Id is required"
+            })
+        }
+
+        const { status } = req.body;
+        console.log("status", status)
+
+
+        const ticket = await Ticket.findByIdAndUpdate(
+            ticketId,
+            { status },
+            { returnDocument: "after" }
+        )
+
+        return res.status(200).json({
+            success: true,
+            message: "Ticket status is updated successfully",
+            ticket
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: true,
+            message: `Something went wrong while updating ticket status ${error}`
+        })
+    }
+}
+
 export {
     createTicket,
-    getAllTicket
+    getAllTicket,
+    getTicketById,
+    updateTicketStatus
 }
