@@ -5,18 +5,19 @@ import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import CreateTicket from './pages/CreateTicket';
 import Home from './pages/Home';
+import TrackTicket from './pages/TrackTicket';
 
 function App() {
 
   useEffect(() => {
     getAllTicket();
-    getAllMessages("6a6b72cda566fb9625e6f105");
   }, [])
   return (
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create-ticket" element={<CreateTicket />} />
+        <Route path="track-ticket" element={<TrackTicket />} />
       </Routes>
     </div>
   )

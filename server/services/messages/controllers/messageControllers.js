@@ -14,7 +14,10 @@ const createMessage = async (req, res) => {
         }
 
         const { role, message_text } = req.body;
-        console.log(role, message_text)
+        console.log("role", role);
+        console.log("message_text", message_text);
+
+
 
 
 
@@ -51,7 +54,7 @@ const getMessages = async (req, res) => {
 
         const messages = await Message.find({ ticketId });
 
-        if(messages.length === 0){
+        if (messages.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: "no messages found"
