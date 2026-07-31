@@ -5,8 +5,7 @@ dotenv.config();
 import messageRouter from "./routes/messageRoutes.js";
 import dbConnect from "./config/dbConnect.js";
 
-
-
+dbConnect();
 
 app.use(express.json());
 
@@ -26,5 +25,5 @@ app.use("/check", (req, res) => {
 
 app.listen(port, () => {
     console.log(`Message Services is listening on port ${port}`);
-    dbConnect();
+    
 })

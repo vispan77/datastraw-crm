@@ -1,4 +1,9 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
+
+console.log("Ready State:", mongoose.connection.readyState);
+console.log("Mongo URL exists:", !!process.env.MONGODB_URL);
 
 const dbConnect = async() => {
     try{
