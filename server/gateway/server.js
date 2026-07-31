@@ -15,6 +15,7 @@ app.use(morgan("dev"));
 
 app.use("/api/auth",proxy(process.env.AUTH_SERVICE));
 app.use("/api/ticket",proxy(process.env.TICKET_SERVICE));
+app.use("/api/message",proxy(process.env.MESSAGES_SERVICE));
 
 
 

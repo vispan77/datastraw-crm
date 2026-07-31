@@ -7,7 +7,7 @@ import ticketRouter from "./routes/ticketRoutes.js";
 import noteRouter from "./routes/noteRoutes.js";
 
 
-dbConnect();
+
 
 app.use(express.json());
 
@@ -22,5 +22,6 @@ app.get("/check", (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Ticket service is listening on port ${port}`)
+    console.log(`Ticket service is listening on port ${port}`);
+    dbConnect();
 })
