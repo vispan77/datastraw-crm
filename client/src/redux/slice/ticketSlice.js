@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const ticketSlice = createSlice({
     name: "ticket",
     initialState: {
-        ticketData: null
+        ticketData: []
     },
     reducers: {
         setTicketData: (state, action) => {

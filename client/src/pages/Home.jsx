@@ -22,6 +22,16 @@ function Home() {
             >
                 TrackTicket
             </button>
+
+            <button
+                onClick={() => navigate("/dashboard")}
+                className='px-5 py-2 bg-black text-white rounded-lg cursor-pointer 
+                hover:bg-black/90'
+            >
+                Dashboard
+            </button>
+
+            
         </div>
     )
 }

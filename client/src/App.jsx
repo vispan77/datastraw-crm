@@ -6,18 +6,19 @@ import { Route, Routes } from 'react-router-dom';
 import CreateTicket from './pages/CreateTicket';
 import Home from './pages/Home';
 import TrackTicket from './pages/TrackTicket';
+import Dashboard from './pages/Dashboard';
+
+
 
 function App() {
 
-  useEffect(() => {
-    getAllTicket();
-  }, [])
   return (
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create-ticket" element={<CreateTicket />} />
         <Route path="track-ticket" element={<TrackTicket />} />
+        <Route path="/dashboard/*" element={<Dashboard />} />
       </Routes>
     </div>
   )

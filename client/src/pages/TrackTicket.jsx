@@ -204,8 +204,8 @@ function TrackTicket() {
                                         placeholder='Ask anything'
                                         value={newMessage}
                                         onChange={(e) => setNewMessage(e.target.value)}
-                                        className="px-4 py-2 border border-black/20 rounded-lg w-full mt-4
-                                         bg-white"
+                                        className="px-4 py-2 border border-black/20 rounded-lg w-full 
+                                        mt-4 bg-white"
                                     />
 
                                     <motion.button
