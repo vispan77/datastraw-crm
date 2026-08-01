@@ -47,10 +47,10 @@ const getNotes = async (req, res) => {
                 message: "Ticket Id is required"
             })
         }
-        
+
         const notes = await Note.find({
-            ticketId
-        })
+            ticketId: ticketId
+        }).sort({ createdAt: -1 });
 
         if (!notes || notes.length === 0) {
             return res.status(404).json({

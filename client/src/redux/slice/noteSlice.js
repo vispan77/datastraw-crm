@@ -10,7 +10,7 @@ const noteSlice = createSlice({
             state.notesData = action.payload;
         },
         addNoteData: (state, action) => {
-            state.notesData.push(action.payload);
+            state.notesData.unshift(action.payload);
         },
     }
 });
