@@ -7,17 +7,24 @@ import { motion } from "motion/react"
 import Message from './Message'
 import createMessage from '../features/createMessage'
 import { ArrowLeft, ArrowLeftIcon, Send } from 'lucide-react'
-import { setSelectedTicket, setTicketData, updateSelectedData, updateTicketStatus } from '../redux/slice/ticketSlice'
+import { setSelectedTicket, setTicketData } from '../redux/slice/ticketSlice'
 import updateStatus from '../features/updateStatus'
+
+
+
+
+
 
 function AgentChat() {
 
     const { messageData } = useSelector((state) => state.message);
-    const { selectedTicket } = useSelector((state) => state.ticket);
 
 
     const [newMessage, setNewMessage] = useState("");
     const [error, setError] = useState(null);
+    const [changeStatus, setChangeStatus] = useState("");
+
+    console.log("chngestatus", changeStatus)
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -66,11 +73,8 @@ function AgentChat() {
 
     }
 
-    const handleStatusChange = async (status) => {
-        const updatedTicket = await updateStatus(ticketId, status);
-        if (updatedTicket) {
-            dispatch(updateTicketStatus({ ticketId, status }));
-        }
+    const updateTicketStatus = async (status) => {
+        await updateStatus(ticketId, status);
     }
 
 
@@ -101,15 +105,12 @@ function AgentChat() {
                 </div>
                 <div>
                     <select
-                        value={selectedTicket ? selectedTicket.status : ''}
+                        value={changeStatus}
                         onChange={(e) => {
                             const status = e.target.value;
-                            handleStatusChange(status);
-                            dispatch(updateSelectedData(status))
-
+                            setChangeStatus(status);
+                            updateTicketStatus(status);
                         }}
-                        className="px-3 py-1 border border-gray-300 rounded-lg shadow-sm 
-                        focus:outline-none focus:ring-2 focus:ring-black/50 text-md mb-4"
 
                     >
                         <option value="Open">Open</option>

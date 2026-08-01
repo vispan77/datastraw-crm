@@ -96,43 +96,6 @@ const getTicketById = async (req, res) => {
     }
 }
 
-const trackTicket = async (req, res) => {
-    try {
-        const { ticketId } = req.body;
-        console.log("ticketId", ticketId);
-
-        if (!ticketId) {
-            return res.status(400).json({
-                success: false,
-                message: "Ticket Id is required"
-            })
-        }
-
-        const ticket = await Ticket.findOne({_id:ticketId});
-
-        if (!ticket) {
-            return res.status(404).json({
-                success: false,
-                message: "Ticket not found"
-            })
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: "Ticket is fetched successfully",
-            ticket
-
-        })
-
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            message: `Something went wrong while getting ticket by id ${error}`
-        })
-    }
-}
-
 
 const updateTicketStatus = async (req, res) => {
     try {
@@ -173,5 +136,5 @@ export {
     getAllTicket,
     getTicketById,
     updateTicketStatus,
-    trackTicket
+
 }

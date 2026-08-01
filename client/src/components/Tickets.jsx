@@ -16,7 +16,6 @@ function Tickets() {
 
 
     const { ticketData, selectedTicket } = useSelector((state) => state.ticket);
-    console.log("ticketData from redux", ticketData)
 
 
     const filteredTickets = ticketData ? ticketData.filter((ticket) => {
@@ -63,7 +62,6 @@ function Tickets() {
                     grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
                         {filteredTickets.map((ticket) => {
                             const isActive = selectedTicket === ticket._id;
-                            console.log("isActive", isActive)
                             return <motion.div
                                 key={ticket._id}
                                 whileHover={{ scale: 1.01 }}
@@ -71,7 +69,7 @@ function Tickets() {
                                 className="bg-gray-50 p-4 rounded-lg shadow-sm border
                                  border-gray-200 cursor-pointer"
                                 onClick={() => {
-                                    dispatch(setSelectedTicket(ticket._id));
+                                    dispatch(setSelectedTicket(ticket));
                                     navigate(`/dashboard/ticket/${ticket._id}`);
                                     
 
