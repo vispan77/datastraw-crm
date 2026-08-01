@@ -1,4 +1,7 @@
 import Ticket from "../model/ticket.js";
+import axios from "axios";
+
+
 
 
 //ticket post kerne ke liye
@@ -20,6 +23,12 @@ const createTicket = async (req, res) => {
             description
         })
 
+        await axios.post(`${process.env.MESSAGE_SERVICE}/create/${ticket._id}`, {
+            role: "customer",
+            message_text: description
+        })
+        console.log("Message saved in the database along with ticket Id")
+
         return res.status(201).json({
             success: true,
             message: "Ticket is created Successfully",
@@ -40,7 +49,7 @@ const createTicket = async (req, res) => {
 
 const getAllTicket = async (req, res) => {
     try {
-        const ticket = await Ticket.find();
+        const ticket = await Ticket.find().sort({ createdAt: -1 });
 
         return res.status(200).json({
             success: true,
