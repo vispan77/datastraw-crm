@@ -8,6 +8,7 @@ import Tickets from '../components/Tickets';
 import CloseTicket from '../components/CloseTicket';
 import { setTicketData } from '../redux/slice/ticketSlice';
 import AgentChat from '../components/AgentChat'
+import Note from '../components/Note'
 
 
 
@@ -87,6 +88,8 @@ function Dashboard() {
                     <Route path="ticket" element={<Tickets />} />
                     <Route path="close-ticket" element={<CloseTicket />} />
                     <Route path="ticket/:id" element={<AgentChat />} />
+                    <Route path="/ticket/:id/note" element={<Note />} />
+                    
                 </Routes>
             </div>
         </div >

@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { motion } from "motion/react"
 import Message from './Message'
 import createMessage from '../features/createMessage'
-import { ArrowLeft, ArrowLeftIcon, Send } from 'lucide-react'
+import { ArrowLeft, ArrowLeftIcon, Plus, Send } from 'lucide-react'
 import { setSelectedTicket, setTicketData, updateSelectedData, updateTicketStatus } from '../redux/slice/ticketSlice'
 import updateStatus from '../features/updateStatus'
 
@@ -95,11 +95,18 @@ function AgentChat() {
                             <ArrowLeftIcon size={20} />
                         </button>
                     </div>
+
                     <h2 className="ml-2 text-xl font-semibold mb-4 text-gray-800 ">
                         Details
                     </h2>
                 </div>
-                <div>
+                <div className='flex gap-3'>
+                    <button onClick={() => navigate(`/dashboard/ticket/${ticketId}/note`)}
+                        className="flex items-center px-3 py-1 bg-black text-white rounded-md 
+                    mb-4 gap-1 text-sm cursor-pointer hover:bg-black/90">
+                        <Plus size={20} />
+                        Add Note
+                    </button>
                     <select
                         value={selectedTicket ? selectedTicket.status : ''}
                         onChange={(e) => {
