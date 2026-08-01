@@ -7,7 +7,7 @@ const noteSlice = createSlice({
     },
     reducers: {
         setNotesData: (state, action) => {
-            state.notesData = action.payload;
+            state.notesData = action.payload || [];
         },
         addNoteData: (state, action) => {
             state.notesData.unshift(action.payload);

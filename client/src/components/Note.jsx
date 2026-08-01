@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { motion } from "motion/react"
-import { create } from 'axios';
 import createNote from '../features/createNote';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import getNote from '../features/getNote';
 import { addNoteData, setNotesData } from '../redux/slice/noteSlice';
+
 
 
 
@@ -29,17 +29,21 @@ function Note() {
 
     const params = useParams();
     const ticketId = params.id;
+    console.log(ticketId)
 
 
     const goBack = async () => {
-        navigate(`/dashboard/ticket/${ticketId}}`);
+        navigate(`/dashboard/ticket/${ticketId}`);;
     }
 
     const sendNote = async () => {
         try {
             const data = await createNote(ticketId, noteText);
-            console.log("data after saving notes", data);
-            dispatch(addNoteData(data))
+            if (notesData.length === 0) {
+                dispatch(setNotesData([data]));
+            } else {
+                dispatch(addNoteData(data));
+            }
             setNoteText("");
         } catch (error) {
             console.log(`error in sending noet ${error}`)
@@ -61,7 +65,7 @@ function Note() {
             return;
         }
         getAllNote();
-    }, [])
+    }, [ticketId])
 
 
 
@@ -99,7 +103,7 @@ function Note() {
                         <textarea
                             className="w-3/4 p-3 border border-gray-300 rounded-lg focus:outline-none 
                             focus:ring-2 focus:ring-black/50"
-                            rows="3"
+                            rows={3}
                             placeholder="Add a new note..."
                             value={noteText}
                             onChange={(e) => setNoteText(e.target.value)}
