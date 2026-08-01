@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from "motion/react"
 import { useDispatch, useSelector } from 'react-redux'
-import {  useNavigate  } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import getAllMessages from '../features/getAllMessages';
 import { setMessagesData } from '../redux/slice/messageSlice';
+import { setSelectedTicket } from '../redux/slice/ticketSlice';
+
 
 
 
@@ -13,7 +14,9 @@ function Tickets() {
     const navigate = useNavigate();
     const [selectedStatus, setSelectedStatus] = useState("All");
 
-    const { ticketData } = useSelector((state) => state.ticket);
+
+    const { ticketData, selectedTicket } = useSelector((state) => state.ticket);
+    console.log("ticketData from redux", ticketData)
 
 
     const filteredTickets = ticketData ? ticketData.filter((ticket) => {
@@ -28,18 +31,7 @@ function Tickets() {
     const dispatch = useDispatch();
 
 
-    const fetchAllMesages = async (ticketId) => {
-        try {
-            const data = await getAllMessages(ticketId);
-            console.log("message data ", data)
-            if (!data) {
-                return;
-            };
-            dispatch(setMessagesData(data));
-        } catch (error) {
-            console.log(`error in geting message ${error}`)
-        }
-    }
+    
 
 
     return (
@@ -69,16 +61,20 @@ function Tickets() {
                 {filteredTickets && filteredTickets.length > 0 ? (
                     <div className="h-[490px] overflow-y-auto overflow-x-hidden [scrollbar-width:none] 
                     grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
-                        {filteredTickets.map((ticket) => (
-                            <motion.div
+                        {filteredTickets.map((ticket) => {
+                            const isActive = selectedTicket === ticket._id;
+                            console.log("isActive", isActive)
+                            return <motion.div
                                 key={ticket._id}
                                 whileHover={{ scale: 1.01 }}
                                 whileTap={{ scale: 0.99 }}
                                 className="bg-gray-50 p-4 rounded-lg shadow-sm border
                                  border-gray-200 cursor-pointer"
                                 onClick={() => {
+                                    dispatch(setSelectedTicket(ticket._id));
                                     navigate(`/dashboard/ticket/${ticket._id}`);
-                                    fetchAllMesages(ticket._id);
+                                    
+
                                 }}
                             >
                                 <p className="text-lg font-medium text-gray-900 mb-1">
@@ -98,7 +94,7 @@ function Tickets() {
                                     Created: {new Date(ticket.createdAt).toLocaleString()}
                                 </p>
                             </motion.div>
-                        ))}
+                        })}
                     </div>
                 ) : (
                     <p className="text-gray-600 text-center">No tickets found.</p>
@@ -110,5 +106,3 @@ function Tickets() {
 }
 
 export default Tickets
-
-

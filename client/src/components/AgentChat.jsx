@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import getAllMessages from '../features/getAllMessages'
 import { setMessagesData, addMessageData } from '../redux/slice/messageSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,7 +7,7 @@ import { motion } from "motion/react"
 import Message from './Message'
 import createMessage from '../features/createMessage'
 import { ArrowLeft, ArrowLeftIcon, Send } from 'lucide-react'
-import { setTicketData } from '../redux/slice/ticketSlice'
+import { setSelectedTicket, setTicketData } from '../redux/slice/ticketSlice'
 
 
 
@@ -15,7 +15,11 @@ import { setTicketData } from '../redux/slice/ticketSlice'
 
 
 function AgentChat() {
-    const ticketId = useParams();
+
+    const { messageData } = useSelector((state) => state.message);
+    const { selectedTicket } = useSelector((state) => state.ticket);
+    console.log("selectedTicket from redux", selectedTicket)
+
 
     const [newMessage, setNewMessage] = useState("");
     const [error, setError] = useState(null);
@@ -25,7 +29,7 @@ function AgentChat() {
 
     const fetchAllMesages = async () => {
         try {
-            const data = await getAllMessages(ticketId.id);
+            const data = await getAllMessages(selectedTicket);
             if (!data) {
                 return;
             };
@@ -37,8 +41,8 @@ function AgentChat() {
 
     const sendMessage = async () => {
         try {
-            if (!newMessage || !ticketId.id) {
-                setError("Message is required"); // Or display an error to the user
+            if (!newMessage || selectedTicket === null) {
+                setError("Message is required");
                 return;
             }
 
@@ -47,7 +51,7 @@ function AgentChat() {
                 message_text: newMessage
             }
 
-            const data = await createMessage(ticketId.id, payload);
+            const data = await createMessage(selectedTicket, payload);
 
             dispatch(addMessageData(data));
             setNewMessage("");
@@ -56,17 +60,21 @@ function AgentChat() {
         }
     }
 
-    const { messageData } = useSelector((state) => state.message);
+
 
     const goBack = async () => {
         navigate('/dashboard/ticket');
-        dispatch(setMessagesData(null));
+        dispatch(setMessagesData([]));
+        dispatch(setSelectedTicket(null));
     }
 
 
     useEffect(() => {
+        if (!selectedTicket) {
+            return;
+        }
         fetchAllMesages();
-    }, [])
+    }, [selectedTicket])
 
 
     return (
@@ -118,7 +126,10 @@ function AgentChat() {
                             type="text"
                             placeholder='Type your message...'
                             value={newMessage}
-                            onChange={(e) => setNewMessage(e.target.value)}
+                            onChange={(e) => {
+                                setNewMessage(e.target.value);
+                                setError(null)
+                            }}
                             className="px-4 py-2 border border-black/20 rounded-lg w-full mt-4 bg-white"
                         />
 
@@ -141,5 +152,3 @@ function AgentChat() {
 }
 
 export default AgentChat
-
-
