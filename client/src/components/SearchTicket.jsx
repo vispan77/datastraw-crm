@@ -51,9 +51,13 @@ function SearchTicket() {
     navigate("/dashboard/home")
   };
 
+  const handleTicketClick = (ticket) => {
+    navigate(`/dashboard/ticket/${ticket._id}`);
+  };
+
   useEffect(() => {
     handleSearch();
-  }, [ticketData, searchText]);
+  }, [searchText]);
 
   return (
     <div className="h-full">
@@ -97,58 +101,75 @@ function SearchTicket() {
               />
             </div>
 
-            <button
-              onClick={handleSearch} // Add onClick handler
-              className="px-6 py-3 bg-black text-white rounded-lg
-                            cursor-pointer hover:bg-gray-800 transition"
-            >
-              Search
-            </button>
+
           </div>
         </div>
         <div
           className="flex-grow overflow-y-auto border border-gray-200
                     rounded-lg bg-gray-50 p-4 [scrollbar-width:none]"
         >
-          {/* Render search results */}
+
           {searchResults && searchResults.length > 0 ? (
             searchResults.map((ticket) => (
               <div
                 key={ticket._id}
+                onClick={() => handleTicketClick(ticket)}
                 className="bg-white border border-gray-200 rounded-lg
-                            shadow-sm p-4 mb-3 cursor-pointer hover:shadow-md transition"
+                shadow-sm p-4 mb-3 cursor-pointer hover:shadow-md transition"
               >
-                <div className="flex justify-between items-center">
-                  <h3 className="font-semibold text-gray-800">
-                    Ticket-id #{ticket._id}
-                  </h3>
 
-                  <span className={`text-sm px-3 py-1 rounded-full
-                                 ${ticket.status === 'Open' ? 'bg-green-100 text-green-700' :
-                      ticket.status === 'In-Progress' ? 'bg-blue-100 text-blue-700' :
-                        'bg-red-100 text-red-700'}`}
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900">
+                      {ticket.customer_name}
+                    </h3>
+
+                    <p className="text-base text-gray-600">
+                      {ticket.customer_email}
+                    </p>
+                  </div>
+
+                  <span
+                    className={`text-sm px-3 py-1 rounded-full
+                      ${ticket.status === "Open"
+                        ? "bg-green-100 text-green-700"
+                        : ticket.status === "In-Progress"
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
                   >
                     {ticket.status}
                   </span>
                 </div>
 
-                <p className="text-gray-700 mt-2">
-                  {ticket.subject}: {ticket.description}
+
+                <h4 className="mt-4 text-md font-semibold text-gray-900">
+                  Subject: {ticket.subject}
+                </h4>
+
+
+                <p className="mt-2 text-gray-700">
+                  {ticket.description}
                 </p>
 
-                <div className="mt-3 text-sm text-gray-500 flex justify-between">
-                  <span>{ticket.customer_name}</span>
-                  <span>{ticket.customer_email}</span>
+
+                <div className="mt-4 flex justify-between items-end">
+                  <span className="text-xs text-gray-500">
+                    Ticket ID: {ticket._id}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    CreatedAt: {new Date(ticket.createdAt).toLocaleString()}
+                  </span>
+
                 </div>
               </div>
             ))
           ) : (
-            // Empty State
             <div className="flex items-center justify-center h-full">
               <p className="text-gray-600">
-                {searchText.trim() ? "No tickets found matching your search."
-                  :
-                  "Please search for a ticket to see results."}
+                {searchText.trim()
+                  ? "No tickets found matching your search."
+                  : "Please search for a ticket to see results."}
               </p>
             </div>
           )}
