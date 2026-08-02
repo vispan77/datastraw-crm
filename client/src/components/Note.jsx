@@ -31,7 +31,7 @@ function Note() {
 
     const params = useParams();
     const ticketId = params.id;
-    console.log(ticketId)
+    
 
 
     const goBack = async () => {
@@ -65,7 +65,7 @@ function Note() {
             setLoading(true);
             const data = await getNote(ticketId);
             dispatch(setNotesData(data))
-            console.log(data);
+            
         } catch (error) {
             console.log(`error in getting note ${error}`)
         } finally {

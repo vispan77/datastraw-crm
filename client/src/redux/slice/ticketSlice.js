@@ -27,7 +27,6 @@ const ticketSlice = createSlice({
         },
         removeDeletedTicketData: (state, action) => {
             const ticketId = action.payload;
-            console.log("ticketId in slice", ticketId);
             state.ticketData = state.ticketData.filter((ticket) => ticket._id !== ticketId);
             state.selectedTicket = null;
         }

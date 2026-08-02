@@ -19,7 +19,6 @@ function TrackTicket() {
     const [loading, setLoading] = useState(false);
 
     const { messageData } = useSelector((state) => state.message);
-    console.log("messageData from redus", messageData)
 
     const dispatch = useDispatch();
     const navigate = useNavigate();

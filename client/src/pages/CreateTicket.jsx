@@ -40,7 +40,7 @@ function CreateTicket() {
                 description: description
             }
             const data = await createTicket(payload);
-            console.log("data from the create ticket jsx", data);
+            
             setTicketId(data);
 
             setName("");
