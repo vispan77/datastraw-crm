@@ -4,10 +4,11 @@ import trackingTicket from '../features/trackingTicket';
 import Message from '../components/Message';
 import { useEffect } from 'react';
 import getAllMessages from '../features/getAllMessages';
-import { Send } from 'lucide-react';
+import { ArrowLeftIcon, Loader, Send } from 'lucide-react';
 import createMessage from '../features/createMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMessageData, setMessagesData } from '../redux/slice/messageSlice';
+import { useNavigate } from 'react-router-dom';
 
 
 function TrackTicket() {
@@ -15,11 +16,17 @@ function TrackTicket() {
     const [ticketData, setTicketData] = useState(null);
     const [error, setError] = useState(null);
     const [newMessage, setNewMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const { messageData } = useSelector((state) => state.message);
     console.log("messageData from redus", messageData)
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const goBack = () => {
+        navigate("/");
+    }
 
     const fetchMessage = async () => {
         try {
@@ -35,6 +42,8 @@ function TrackTicket() {
 
     const handleTrack = async () => {
         try {
+            setLoading(true);
+            setError(null);
 
             if (!ticketId) {
                 setError("Please enter a Ticket ID.");
@@ -48,13 +57,19 @@ function TrackTicket() {
             if (data) {
                 setTicketData(data);
             } else {
+                setTicketData(null);
+                dispatch(setMessagesData([]));
                 setError("Ticket not found.");
             }
 
             await fetchMessage();
         } catch (err) {
             console.error("error in tracking ticket:", err);
-            setError(err.response?.data?.message || "Failed to track ticket. Please try again.");
+            setTicketData(null);
+            dispatch(setMessagesData([]));
+            setError(err.response?.data?.message || "faied to track ticket. Please try again.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -94,9 +109,15 @@ function TrackTicket() {
                 transition={{ duration: 0.3 }}
                 className="bg-white p-8 rounded-xl shadow-lg w-7xl mx-auto mt-7 "
             >
-                <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">
-                    Track Your Support Ticket
-                </h2>
+                <div className='flex items-center justify-center mb-4 relative'>
+                    <button onClick={goBack} className='absolute left-0 cursor-pointer'>
+                        <ArrowLeftIcon size={20} />
+                    </button>
+                    <h2 className="text-2xl font-semibold text-center text-gray-800">
+                        Track Your Support Ticket
+                    </h2>
+                </div>
+
 
                 <div className="mb-4">
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -122,11 +143,16 @@ function TrackTicket() {
                     <motion.button
                         onClick={handleTrack}
                         whileHover={{ scale: 1.05 }}
+                        disabled={loading}
                         whileTap={{ scale: 0.95 }}
                         className='px-5 py-2 bg-black text-white rounded-lg cursor-pointer
-                         hover:bg-black/90'
+                         hover:bg-black/90 flex items-center justify-center w-32'
                     >
-                        Track Ticket
+                        {loading ? (
+                            <Loader className="animate-spin" size={20} />
+                        ) : (
+                            "Track Ticket"
+                        )}
                     </motion.button>
                 </div>
 

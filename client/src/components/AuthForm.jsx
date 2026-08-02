@@ -6,6 +6,8 @@ import { setUserData } from '../redux/slice/userSlice';
 import api from '../../utils/api';
 import { auth, provider } from '../../utils/firebase';
 import { signInWithPopup } from 'firebase/auth';
+import { useState } from "react";
+import { Loader } from "lucide-react";
 
 
 
@@ -13,9 +15,11 @@ import { signInWithPopup } from 'firebase/auth';
 function AuthForm() {
 
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
 
     const googleAuth = async () => {
         try {
+            setLoading(true);
             const result = await signInWithPopup(auth, provider);
 
             const response = await api.post("/auth/google-auth", {
@@ -28,6 +32,8 @@ function AuthForm() {
 
         } catch (error) {
             console.log(`error in the google auth ${error}`)
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -50,12 +56,17 @@ function AuthForm() {
                     onClick={googleAuth} 
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className='w-full flex items-center justify-center gap-3 px-6 py-3
+                    disabled={loading}
+                    className='w-full flex items-center justify-center gap-3 px-6 py-3 h-14
                      bg-black text-white rounded-lg cursor-pointer
                      hover:bg-black/90 transition-colors duration-200 text-lg font-medium'
                 >
-                    <FcGoogle />
-                    Sign in with Google
+                    {loading ? (
+                        <Loader className="animate-spin" />
+                    ) : (<>
+                        <FcGoogle />
+                        Sign in with Google
+                    </>)}
                 </motion.button>
             </motion.div>
         </div >
@@ -63,4 +74,3 @@ function AuthForm() {
 }
 
 export default AuthForm
-

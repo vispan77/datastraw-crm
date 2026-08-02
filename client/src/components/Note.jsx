@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from 'lucide-react';
+import { ArrowLeftIcon, Loader } from 'lucide-react';
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux';
@@ -26,6 +26,8 @@ function Note() {
     const { notesData } = useSelector((state) => state.note);
 
     const [noteText, setNoteText] = useState("");
+    const [sending, setSending] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const params = useParams();
     const ticketId = params.id;
@@ -43,6 +45,7 @@ function Note() {
         }
         
         try {
+            setSending(true);
             const data = await createNote(ticketId, noteText);
             if (notesData.length === 0) {
                 dispatch(setNotesData([data]));
@@ -52,16 +55,21 @@ function Note() {
             setNoteText("");
         } catch (error) {
             console.log(`error in sending noet ${error}`)
+        } finally {
+            setSending(false);
         }
     }
 
     const getAllNote = async () => {
         try {
+            setLoading(true);
             const data = await getNote(ticketId);
             dispatch(setNotesData(data))
             console.log(data);
         } catch (error) {
             console.log(`error in getting note ${error}`)
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -116,10 +124,13 @@ function Note() {
 
                         <div className="flex items-center justify-center w-1/4">
                             <button onClick={sendNote}
+                                disabled={sending}
                                 className='px-4 py-2 bg-black text-white rounded-lg 
-                                text-md cursor-pointer'
+                                text-md cursor-pointer w-28 flex justify-center'
                             >
-                                Save Note
+                                {sending ? <Loader size={20} className="animate-spin" /> : (
+                                    "Save Note"
+                                )}
                             </button>
                         </div>
                     </div>
@@ -131,25 +142,31 @@ function Note() {
                 <div className="flex-grow overflow-y-auto pr-2 pl-2 pb-2 [scrollbar-width:none] 
                                 border border-gray-200 rounded-lg bg-gray-50 p-2"
                 >
-                    {notesData && notesData.length > 0 ? (
-                        notesData.map((note) => (
-                            <div key={note._id} className="bg-white p-3 rounded-lg shadow-sm 
-                                mb-3 border border-gray-200"
-                            >
-                                <p className="text-gray-800 text-sm leading-relaxed">
-                                    {note.note_text}
-                                </p>
-                                <p className="text-xs text-gray-500 mt-2 text-right">
-                                    {new Date(note.createdAt).toLocaleString()}
+                    {loading ? (
+                        <div className="flex items-center justify-center h-full">
+                            <Loader size={32} className="animate-spin text-black" />
+                        </div>
+                    ) : (
+                        notesData && notesData.length > 0 ? (
+                            notesData.map((note) => (
+                                <div key={note._id} className="bg-white p-3 rounded-lg shadow-sm 
+                                    mb-3 border border-gray-200"
+                                >
+                                    <p className="text-gray-800 text-sm leading-relaxed">
+                                        {note.note_text}
+                                    </p>
+                                    <p className="text-xs text-gray-500 mt-2 text-right">
+                                        {new Date(note.createdAt).toLocaleString()}
+                                    </p>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="flex items-center justify-center h-full">
+                                <p className="text-gray-600 text-center">
+                                    No notes added for this ticket yet.
                                 </p>
                             </div>
-                        ))
-                    ) : (
-                        <div className="flex items-center justify-center h-full">
-                            <p className="text-gray-600 text-center">
-                                No notes added for this ticket yet.
-                            </p>
-                        </div>
+                        )
                     )}
 
 

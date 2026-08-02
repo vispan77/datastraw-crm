@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from './redux/slice/userSlice';
 import getCurrentUser from './features/getCurrentUser';
 import AuthForm from './components/AuthForm';
+import { Toaster } from 'react-hot-toast';
+
 
 
 
@@ -34,6 +36,7 @@ function App() {
 
   return (
     <div>
+      <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/create-ticket" element={<CreateTicket />} />

@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { motion } from "motion/react"
 import Message from './Message'
 import createMessage from '../features/createMessage'
-import { ArrowLeft, ArrowLeftIcon, Plus, Send } from 'lucide-react'
+import { ArrowLeft, ArrowLeftIcon, Loader, Plus, Send } from 'lucide-react'
 import { setSelectedTicket, setTicketData, updateSelectedData, updateTicketStatus } from '../redux/slice/ticketSlice'
+import toast from 'react-hot-toast'
 import updateStatus from '../features/updateStatus'
 
 function AgentChat() {
@@ -18,6 +19,8 @@ function AgentChat() {
 
     const [newMessage, setNewMessage] = useState("");
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [sending, setSending] = useState(false);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -28,7 +31,7 @@ function AgentChat() {
 
     const fetchAllMesages = async () => {
         try {
-
+            setLoading(true);
             const data = await getAllMessages(ticketId);
             if (!data) {
                 return;
@@ -36,13 +39,17 @@ function AgentChat() {
             dispatch(setMessagesData(data));
         } catch (error) {
             console.log(`error in geting message ${error}`)
+        } finally {
+            setLoading(false);
         }
     }
 
     const sendMessage = async () => {
         try {
+            setSending(true);
             if (!newMessage || !ticketId) {
                 setError("Message is required");
+                setSending(false);
                 return;
             }
 
@@ -57,6 +64,8 @@ function AgentChat() {
             setNewMessage("");
         } catch (error) {
             console.error(`error in sending message: ${error}`);
+        } finally {
+            setSending(false);
         }
     }
 
@@ -70,6 +79,7 @@ function AgentChat() {
         const updatedTicket = await updateStatus(ticketId, status);
         if (updatedTicket) {
             dispatch(updateTicketStatus({ ticketId, status }));
+            toast.success("Status updated successfully!");
         }
     }
 
@@ -142,22 +152,28 @@ function AgentChat() {
                 className='w-full bg-white p-6 rounded-xl shadow-lg flex flex-col h-[550px]'
             >
                 <div className="flex-grow overflow-y-auto pr-2 pl-2 pb-2 [scrollbar-width:none] 
-                    border border-gray-200 rounded-lg bg-gray-50"
+                    border border-gray-200 rounded-lg bg-gray-50 relative"
                 >
                     {
-                        messageData.length > 0 ? (
-                            messageData.map((message) => (
-                                <Message
-                                    key={message._id}
-                                    role={message.role}
-                                    message_text={message.message_text}
-                                    createdAt={message.createdAt}
-                                />
-                            ))
-                        ) : (
-                            <div className="text-gray-600 text-center py-4">
-                                No messages found for this ticket.
+                        loading ? (
+                            <div className="absolute inset-0 flex items-center justify-center bg-white/50">
+                                <Loader className="animate-spin text-black" size={32} />
                             </div>
+                        ) : (
+                            messageData.length > 0 ? (
+                                messageData.map((message) => (
+                                    <Message
+                                        key={message._id}
+                                        role={message.role}
+                                        message_text={message.message_text}
+                                        createdAt={message.createdAt}
+                                    />
+                                ))
+                            ) : (
+                                <div className="text-gray-600 text-center py-4">
+                                    No messages found for this ticket.
+                                </div>
+                            )
                         )
                     }
                 </div>
@@ -179,10 +195,15 @@ function AgentChat() {
                             onClick={sendMessage}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
+                            disabled={sending}
                             className='w-10 h-10 rounded-full bg-black flex items-center justify-center
                             text-white cursor-pointer mt-3'
                         >
-                            <Send size={18} />
+                            {sending ? (
+                                <Loader className="animate-spin" size={18} />
+                            ) : (
+                                <Send size={18} />
+                            )}
                         </motion.button>
                     </div>
                 </div>

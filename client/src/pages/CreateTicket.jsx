@@ -2,7 +2,9 @@ import React from 'react'
 import { useState } from 'react'
 import createTicket from '../features/createTicket';
 import { motion } from "motion/react"
+import { ArrowLeftIcon, Loader } from 'lucide-react';
 import CopyTicket from '../components/CopyTicket';
+import { useNavigate } from 'react-router-dom';
 
 function CreateTicket() {
     const [name, setName] = useState("");
@@ -11,10 +13,18 @@ function CreateTicket() {
     const [description, setDescription] = useState("");
     const [error, setError] = useState(null);
     const [ticketId, setTicketId] = useState("");
+    const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
+
+
+    const goBack = () => {
+        navigate("/");
+    }
 
     const handleSubmit = async () => {
         try {
+            setLoading(true);
             if (!name || !email || !subject || !description) {
                 setError("all fields are required.");
                 setTimeout(() => {
@@ -39,6 +49,8 @@ function CreateTicket() {
             setDescription("");
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     }
     return (
@@ -50,10 +62,16 @@ function CreateTicket() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
                         transition={{ duration: 0.3 }}
-                        className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
-                        <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">
-                            Create a Support Ticket
-                        </h2>
+                        className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md"
+                    >
+                        <div className='flex items-center justify-center mb-4 relative'>
+                            <button onClick={goBack} className='absolute left-0 cursor-pointer'>
+                                <ArrowLeftIcon size={20} />
+                            </button>
+                            <h2 className="text-2xl font-semibold text-center text-gray-800">
+                                Create a Support Ticket
+                            </h2>
+                        </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -112,10 +130,15 @@ function CreateTicket() {
                                 <motion.button onClick={handleSubmit}
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
+                                    disabled={loading}
                                     className='px-5 py-2 bg-black text-white rounded-lg cursor-pointer 
-                            hover:bg-black/90'
+                            hover:bg-black/90 flex items-center justify-center w-28'
                                 >
-                                    Submit
+                                    {loading ? (
+                                        <Loader className="animate-spin" size={20} />
+                                    ) : (
+                                        "Submit"
+                                    )}
                                 </motion.button>
 
                             </div>
@@ -142,4 +165,3 @@ function CreateTicket() {
 }
 
 export default CreateTicket
-
