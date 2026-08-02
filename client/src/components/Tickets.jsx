@@ -111,7 +111,7 @@ function Tickets() {
                                             <strong>Subject:</strong> {ticket.subject}
                                         </p>
                                         <p className="text-sm text-gray-700 mb-1">
-                                            <strong>Customer:</strong>
+                                            <strong>Customer: </strong>
                                             {ticket.customer_name} ({ticket.customer_email})
                                         </p>
                                         <p className={`text-sm font-semibold
