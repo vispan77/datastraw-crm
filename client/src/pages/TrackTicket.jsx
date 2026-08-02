@@ -100,27 +100,30 @@ function TrackTicket() {
 
 
     return (
-        <div className="min-h-screen bg-gray-100 flex flex-col">
+        <div className="min-h-screen bg-gray-100 flex flex-col p-4">
 
             <motion.div
                 initial={{ opacity: 0, y: -40 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white p-8 rounded-xl shadow-lg w-7xl mx-auto mt-7 "
+                className="bg-white p-6 md:p-8 rounded-xl shadow-lg w-full max-w-7xl 
+                mx-auto mt-4 md:mt-7"
             >
                 <div className='flex items-center justify-center mb-4 relative'>
                     <button onClick={goBack} className='absolute left-0 cursor-pointer'>
                         <ArrowLeftIcon size={20} />
                     </button>
-                    <h2 className="text-2xl font-semibold text-center text-gray-800">
+                    <h2 className="text-xl md:text-2xl font-semibold text-center text-gray-800">
                         Track Your Support Ticket
                     </h2>
                 </div>
 
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="ticketId" className="block text-sm font-medium
+                     text-gray-700 mb-1"
+                    >
                         Ticket ID
                     </label>
                     <input
@@ -163,15 +166,19 @@ function TrackTicket() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white p-8 rounded-xl shadow-lg w-7xl mx-auto mt-7 h-full mb-7"
+                className="bg-white p-6 md:p-8 rounded-xl shadow-lg w-full max-w-7xl 
+                mx-auto mt-7 h-full mb-7"
             >
 
                 {
                     ticketData && (
                         <div className='mt-1 p-3 border border-gray-200 rounded-lg
-                         bg-green-50 h-full flex justify-between items-center'
+                         bg-green-50 h-full flex flex-col md:flex-row justify-between 
+                         items-center gap-2'
                         >
-                            <div className='flex gap-3'>
+                            <div className='flex flex-col md:flex-row gap-1 md:gap-3 text-center 
+                            md:text-left'
+                            >
                                 <p className='text-gray-700 mb-1'>
                                     <strong>Email : </strong>
                                     {ticketData.customer_email}
@@ -193,7 +200,7 @@ function TrackTicket() {
                     {
                         ticketData ? (
 
-                            <div className="h-[500px] overflow-y-auto overflow-x-hidden pr-2">
+                            <div className="h-[400px] md:h-[500px] overflow-y-auto overflow-x-hidden pr-2">
                                 {
                                     messageData.length > 0 ? (
                                         messageData.map((message) => (

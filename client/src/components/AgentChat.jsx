@@ -94,52 +94,61 @@ function AgentChat() {
 
     return (
         <div className="h-full">
-            <div className='flex items-center justify-between'>
+
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+
                 <div className="flex items-center">
-                    <div className='text-black mb-1.5 cursor-pointer ml-2'
-                    >
-                        <button className="cursor-pointer" onClick={() => {
+                    <button
+                        className="cursor-pointer text-black ml-2"
+                        onClick={() => {
                             dispatch(clearMessageData());
                             goBack();
-                        }}>
-                            <ArrowLeftIcon size={20} />
-                        </button>
-                    </div>
+                        }}
+                    >
+                        <ArrowLeftIcon size={20} />
+                    </button>
 
-                    <h2 className="ml-2 text-xl font-bold mb-4 text-gray-800 ">
+                    <h2 className="ml-2 text-lg md:text-xl font-bold text-gray-800">
                         Details
                     </h2>
                 </div>
-                <div className='flex gap-5'>
 
-                    <div className='flex gap-2'>
-                        <h2 className='text-md font-semibold text-gray-800 mt-1'>
-                            Update - Status
+
+                <div className="flex flex-col sm:flex-row gap-3 md:gap-5 w-full md:w-auto">
+                    {/* Status */}
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full md:w-auto">
+                        <h2 className="text-sm md:text-md font-semibold text-gray-800 
+                        whitespace-nowrap"
+                        >
+                            Update Status
                         </h2>
+
                         <select
-                            value={selectedTicket ? selectedTicket.status : ''}
+                            value={selectedTicket ? selectedTicket.status : ""}
                             onChange={(e) => {
                                 const status = e.target.value;
                                 handleStatusChange(status);
-                                dispatch(updateSelectedData(status))
-
+                                dispatch(updateSelectedData(status));
                             }}
-                            className="px-3 py-1 border border-gray-300 rounded-lg shadow-sm 
-                        focus:outline-none focus:ring-2 focus:ring-black/50 text-md mb-4"
-
+                            className="w-full sm:w-auto px-3 py-2 border border-gray-300 
+                            rounded-lg shadow-sm
+                            focus:outline-none focus:ring-2 focus:ring-black/50 text-sm"
                         >
                             <option value="Open">Open</option>
                             <option value="In-Progress">In-Progress</option>
                             <option value="Closed">Closed</option>
-
                         </select>
                     </div>
 
-                    <button onClick={() => navigate(`/dashboard/ticket/${ticketId}/note`)}
-                        className="flex items-center px-3 py-1 bg-black text-white rounded-md 
-                    mb-4 gap-1 text-sm cursor-pointer hover:bg-black/90">
-                        <Plus size={20} />
-                        Add Note
+
+                    <button
+                        onClick={() => navigate(`/dashboard/ticket/${ticketId}/note`)}
+                        className="flex items-center justify-center gap-2 w-full sm:w-auto
+            px-4 py-2 bg-black text-white rounded-md
+            hover:bg-black/90 transition-colors"
+                    >
+                        <Plus size={18} />
+                        <span>Add Note</span>
                     </button>
                 </div>
             </div>
@@ -156,7 +165,9 @@ function AgentChat() {
                 >
                     {
                         loading ? (
-                            <div className="absolute inset-0 flex items-center justify-center bg-white/50">
+                            <div className="absolute inset-0 flex items-center justify-center
+                             bg-white/50"
+                            >
                                 <Loader className="animate-spin text-black" size={32} />
                             </div>
                         ) : (
@@ -188,7 +199,8 @@ function AgentChat() {
                                 setNewMessage(e.target.value);
                                 setError(null)
                             }}
-                            className="px-4 py-2 border border-black/20 rounded-lg w-full mt-4 bg-white"
+                            className="px-4 py-2 border border-black/20 rounded-lg 
+                            w-full mt-4 bg-white"
                         />
 
                         <motion.button
@@ -196,8 +208,10 @@ function AgentChat() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             disabled={sending}
-                            className='w-10 h-10 rounded-full bg-black flex items-center justify-center
+                            className='w-10 h-10 rounded-full bg-black flex 
+                            items-center justify-center
                             text-white cursor-pointer mt-3'
+
                         >
                             {sending ? (
                                 <Loader className="animate-spin" size={18} />

@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import getAllTicket from '../features/getAllTicket'
 import Tickets from '../components/Tickets';
-import CloseTicket from '../components/CloseTicket';
+import SearchTicket from '../components/SearchTicket';
 import { setTicketData } from '../redux/slice/ticketSlice';
 import AgentChat from '../components/AgentChat'
 import Note from '../components/Note'
@@ -26,7 +26,7 @@ function Dashboard() {
     const sideBar = [
         { name: "Home", path: "/dashboard/home" },
         { name: "Tickets", path: "/dashboard/ticket" },
-        { name: "Close Ticket", path: "/dashboard/close-ticket" }
+        { name: "Search Ticket", path: "/dashboard/search-ticket" }
     ]
 
     const fetchAllTickets = async () => {
@@ -89,7 +89,7 @@ function Dashboard() {
                 <Routes>
                     <Route path="home" element={<DashboardHome />} />
                     <Route path="ticket" element={<Tickets />} />
-                    <Route path="close-ticket" element={<CloseTicket />} />
+                    <Route path="search-ticket" element={<SearchTicket />} />
                     <Route path="ticket/:id" element={<AgentChat />} />
                     <Route path="/ticket/:id/note" element={<Note />} />
 

@@ -16,23 +16,23 @@ function Home() {
         <div className='min-h-screen bg-gray-50'>
             <Navbar />
 
-            <div className="container mx-auto px-4 py-12">
+            <div className="container mx-auto px-4 py-8 md:py-12">
 
                 <div className="flex flex-col md:flex-row items-center 
-                justify-between bg-white rounded-lg shadow-lg p-8 mb-12"
+                justify-between bg-white rounded-lg shadow-lg p-6 md:p-8 mb-12"
                 >
                     <div className="md:w-full text-center md:text-center mb-8 md:mb-0">
 
-                        <h1 className="text-4xl font-extrabold text-gray-900 leading-tight mb-4">
+                        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight mb-4">
                             Streamline Your Customer Relationships
                         </h1>
 
-                        <p className="text-md text-gray-700 mb-6">
+                        <p className="text-base md:text-lg text-gray-700 mb-6">
                             Our CRM helps you manage customer interactions, track sales,
                             and improve service efficiency with ease.
                         </p>
 
-                        <div className="flex justify-center md:justify-center gap-4">
+                        <div className="flex flex-col sm:flex-row justify-center md:justify-center gap-4">
 
                             {
                                 userData ? (
@@ -48,7 +48,7 @@ function Home() {
                                         </button>
                                     </div>
                                 ) : (
-                                    <div className="flex justify-center md:justify-center gap-4">
+                                    <div className="flex flex-col sm:flex-row justify-center md:justify-center gap-4">
                                         <button
                                             onClick={() => navigate("/create-ticket")}
                                             className='px-7 py-3 bg-black text-white font-medium 
@@ -77,7 +77,7 @@ function Home() {
 
                     <div className="bg-white p-6 rounded-lg shadow-md">
 
-                        <h2 className="text-2xl font-bold text-gray-800 mb-3">
+                        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-3">
                             Efficient Ticketing
                         </h2>
                         <p className="text-gray-600">
@@ -114,13 +114,13 @@ function Home() {
 
 
                 <div
-                    className="text-center bg-black text-white p-10 rounded-lg shadow-lg"
+                    className="text-center bg-black text-white p-6 md:p-10 rounded-lg shadow-lg"
                 >
-                    <h2 className="text-3xl font-bold mb-4">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-4">
                         Already Submitted a Ticket?
                     </h2>
 
-                    <p className="text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
+                    <p className="text-base md:text-lg text-gray-300 mb-6 max-w-2xl mx-auto">
                         Check the latest status of your support request, view updates,
                         and stay informed throughout the resolution process.
                     </p>
