@@ -4,8 +4,7 @@ import Message from "../model/message.js"
 const createMessage = async (req, res) => {
     try {
         const { ticketId } = req.params;
-        console.log("ticketId", ticketId)
-
+    
         if (!ticketId) {
             return res.status(400).json({
                 success: false,
@@ -14,8 +13,7 @@ const createMessage = async (req, res) => {
         }
 
         const { role, message_text } = req.body;
-        console.log("role", role);
-        console.log("message_text", message_text);
+    
 
         const message = await Message.create({
             ticketId,

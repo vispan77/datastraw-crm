@@ -28,7 +28,7 @@ const createTicket = async (req, res) => {
             role: "customer",
             message_text: description
         })
-        console.log("Message saved in the database along with ticket Id")
+        
 
         return res.status(201).json({
             success: true,
@@ -118,7 +118,7 @@ const updateTicketStatus = async (req, res) => {
         }
 
         const { status } = req.body;
-        console.log("status", status)
+        
 
 
         const ticket = await Ticket.findByIdAndUpdate(

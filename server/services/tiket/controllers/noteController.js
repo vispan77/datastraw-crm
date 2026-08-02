@@ -4,7 +4,7 @@ import Note from "../model/notes.js";
 const createNote = async (req, res) => {
     try {
         const { ticketId } = req.params;
-        console.log("ticketId", ticketId)
+        
 
         if (!ticketId) {
             return res.status(400).json({
@@ -14,7 +14,7 @@ const createNote = async (req, res) => {
         }
 
         const { note_text } = req.body;
-        console.log("note_text from the request ki body = ", note_text)
+        
 
         const note = await Note.create({
             ticketId,
@@ -39,7 +39,7 @@ const createNote = async (req, res) => {
 const getNotes = async (req, res) => {
     try {
         const { ticketId } = req.params;
-        console.log("ticketId", ticketId)
+       
 
         if (!ticketId) {
             return res.status(400).json({
