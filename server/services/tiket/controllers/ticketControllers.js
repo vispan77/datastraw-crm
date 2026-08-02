@@ -1,3 +1,4 @@
+import Note from "../model/notes.js";
 import Ticket from "../model/ticket.js";
 import axios from "axios";
 
@@ -140,10 +141,48 @@ const updateTicketStatus = async (req, res) => {
     }
 }
 
+const deleteTicket = async (req, res) => {
+    try {
+        const { ticketId } = req.params;
+        console.log("ticketId in delete controler", ticketId)
+
+        if (!ticketId) {
+            return res.status(400).json({
+                success: false,
+                message: "Ticket Id is required"
+            })
+        }
+
+        await Ticket.findByIdAndDelete(ticketId);
+
+        await Note.deleteMany({
+            ticketId
+        })
+
+        await axios.delete(`${process.env.MESSAGE_SERVICE}/delete/${ticketId}`);
+
+        console.log("ticket is deleted along with the notes and messages");
+
+        return res.status(200).json({
+            success: true,
+            message: "Ticket is deleted successfully"
+        })
+
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: true,
+            message: `Something went wrong while deleting ticket ${error}`
+        })
+    }
+}
+
 export {
     createTicket,
     getAllTicket,
     getTicketById,
     updateTicketStatus,
+    deleteTicket
 
 }

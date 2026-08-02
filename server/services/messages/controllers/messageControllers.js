@@ -17,10 +17,6 @@ const createMessage = async (req, res) => {
         console.log("role", role);
         console.log("message_text", message_text);
 
-
-
-
-
         const message = await Message.create({
             ticketId,
             role,
@@ -76,7 +72,36 @@ const getMessages = async (req, res) => {
     }
 }
 
+
+const deleteMessages = async (req, res) => {
+    try {
+        const { ticketId } = req.params;
+
+        if (!ticketId) {
+            return res.status(400).json({
+                success: false,
+                message: "ticketId is required"
+            })
+        }
+
+        await Message.deleteMany({ ticketId });
+
+        return res.status(200).json({
+            success: true,
+            message: "messages deleted successfully"
+        })
+
+    } catch (error) {
+        console.log(error);;
+        return res.status(500).json({
+            success: false,
+            message: `cannot delete a message = ${error}`
+        })
+    }
+}
+
 export {
     createMessage,
-    getMessages
+    getMessages,
+    deleteMessages
 }

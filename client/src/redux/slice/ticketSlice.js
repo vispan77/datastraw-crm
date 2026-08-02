@@ -24,11 +24,20 @@ const ticketSlice = createSlice({
         updateSelectedData: (state, action) => {
             const { status } = action.payload;
             state.selectedTicket.status = status;
+        },
+        removeDeletedTicketData: (state, action) => {
+            const ticketId = action.payload;
+            console.log("ticketId in slice", ticketId);
+            state.ticketData = state.ticketData.filter((ticket) => ticket._id !== ticketId);
+            state.selectedTicket = null;
         }
 
     }
 })
 
-export const { setTicketData, setSelectedTicket, updateTicketStatus, updateSelectedData } = ticketSlice.actions;
+export const {
+    setTicketData, setSelectedTicket,
+    updateTicketStatus, updateSelectedData, removeDeletedTicketData
+} = ticketSlice.actions;
 
 export default ticketSlice.reducer;
