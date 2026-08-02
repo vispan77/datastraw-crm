@@ -96,34 +96,41 @@ function AgentChat() {
                         </button>
                     </div>
 
-                    <h2 className="ml-2 text-xl font-semibold mb-4 text-gray-800 ">
+                    <h2 className="ml-2 text-xl font-bold mb-4 text-gray-800 ">
                         Details
                     </h2>
                 </div>
-                <div className='flex gap-3'>
+                <div className='flex gap-5'>
+
+                    <div className='flex gap-2'>
+                        <h2 className='text-md font-semibold text-gray-800 mt-1'>
+                            Update - Status
+                        </h2>
+                        <select
+                            value={selectedTicket ? selectedTicket.status : ''}
+                            onChange={(e) => {
+                                const status = e.target.value;
+                                handleStatusChange(status);
+                                dispatch(updateSelectedData(status))
+
+                            }}
+                            className="px-3 py-1 border border-gray-300 rounded-lg shadow-sm 
+                        focus:outline-none focus:ring-2 focus:ring-black/50 text-md mb-4"
+
+                        >
+                            <option value="Open">Open</option>
+                            <option value="In-Progress">In-Progress</option>
+                            <option value="Closed">Closed</option>
+
+                        </select>
+                    </div>
+
                     <button onClick={() => navigate(`/dashboard/ticket/${ticketId}/note`)}
                         className="flex items-center px-3 py-1 bg-black text-white rounded-md 
                     mb-4 gap-1 text-sm cursor-pointer hover:bg-black/90">
                         <Plus size={20} />
                         Add Note
                     </button>
-                    <select
-                        value={selectedTicket ? selectedTicket.status : ''}
-                        onChange={(e) => {
-                            const status = e.target.value;
-                            handleStatusChange(status);
-                            dispatch(updateSelectedData(status))
-
-                        }}
-                        className="px-3 py-1 border border-gray-300 rounded-lg shadow-sm 
-                        focus:outline-none focus:ring-2 focus:ring-black/50 text-md mb-4"
-
-                    >
-                        <option value="Open">Open</option>
-                        <option value="In-Progress">In-Progress</option>
-                        <option value="Closed">Closed</option>
-
-                    </select>
                 </div>
             </div>
 

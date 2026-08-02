@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import getAllMessages from '../features/getAllMessages';
 import { setMessagesData } from '../redux/slice/messageSlice';
 import { setSelectedTicket } from '../redux/slice/ticketSlice';
+import { ArrowLeftIcon } from 'lucide-react';
 
 
 
@@ -29,25 +30,42 @@ function Tickets() {
 
     const dispatch = useDispatch();
 
+    const goBack = () => {
+        navigate("/");
+    }
 
-    
+
+
 
 
     return (
         <div className="h-full">
             <div className='flex items-center justify-between'>
-                <h2 className="ml-2 text-xl font-semibold mb-4 text-gray-800">All Tickets</h2>
-                <select
-                    value={selectedStatus}
-                    onChange={(event) => setSelectedStatus(event.target.value)}
-                    className="px-3 py-1 border border-gray-300 rounded-lg shadow-sm 
+                <div className="flex items-center">
+                    <button onClick={goBack}
+                    className="text-gray-800  mb-3 cursor-pointer ml-2"
+                    >
+                        <ArrowLeftIcon size={25} className="font-semibold" />
+                    </button>
+                    <h2 className="ml-2 text-xl font-bold mb-4 text-gray-800">All Tickets</h2>
+                </div>
+                <div className='flex gap-3'>
+                    <h2 className='text-lg font-semibold text-gray-800 mt-1'>
+                        Filter -
+                    </h2>
+                    <select
+                        value={selectedStatus}
+                        onChange={(event) => setSelectedStatus(event.target.value)}
+                        className="px-3 py-1 border border-gray-300 rounded-lg shadow-sm 
                     focus:outline-none focus:ring-2 focus:ring-black/50 text-md mb-4"
-                >
-                    <option value="All">All</option>
-                    <option value="Open">Open</option>
-                    <option value="In-Progress">In-Progress</option>
-                    <option value="Closed">Closed</option>
-                </select>
+                    >
+                        <option value="All">All</option>
+                        <option value="Open">Open</option>
+                        <option value="In-Progress">In-Progress</option>
+                        <option value="Closed">Closed</option>
+                    </select>
+                </div>
+
             </div>
             <motion.div
                 initial={{ opacity: 0, x: 20 }}
@@ -71,7 +89,7 @@ function Tickets() {
                                 onClick={() => {
                                     dispatch(setSelectedTicket(ticket));
                                     navigate(`/dashboard/ticket/${ticket._id}`);
-                                    
+
 
                                 }}
                             >

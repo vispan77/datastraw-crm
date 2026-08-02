@@ -6,12 +6,17 @@ import api from '../../utils/api';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../redux/slice/userSlice';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 
 
 
 function Navbar() {
+
+    const navigate = useNavigate();
 
     const { userData } = useSelector((state) => state.user);
 
@@ -72,13 +77,13 @@ function Navbar() {
                     </>
                 ) : (
                     <motion.button
-                        onClick={googleAuth}
+                        onClick={() => navigate("/dashboard/home")}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         className='px-4 py-2 bg-black text-white rounded-lg cursor-pointer
                                    hover:bg-gray-800 transition-colors duration-200'
                     >
-                        Get Started
+                        Go to Dashboard
                     </motion.button>
                 )}
             </div>

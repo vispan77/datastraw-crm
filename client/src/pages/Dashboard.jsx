@@ -9,6 +9,7 @@ import CloseTicket from '../components/CloseTicket';
 import { setTicketData } from '../redux/slice/ticketSlice';
 import AgentChat from '../components/AgentChat'
 import Note from '../components/Note'
+import DashboardHome from '../components/DashboardHome'
 
 
 
@@ -23,7 +24,8 @@ function Dashboard() {
 
 
     const sideBar = [
-        { name: "Ticket", path: "/dashboard/ticket" },
+        { name: "Home", path: "/dashboard/home" },
+        { name: "Tickets", path: "/dashboard/ticket" },
         { name: "Close Ticket", path: "/dashboard/close-ticket" }
     ]
 
@@ -50,7 +52,7 @@ function Dashboard() {
             <motion.div
                 initial={{ x: -100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 0.1 }}
                 className='w-64 bg-white text-gray-700 border-r border-gray-100 
             rounded-lg shadow-md backdrop-blur-xl p-6 flex-col justify-start items-center'
             >
@@ -85,11 +87,12 @@ function Dashboard() {
 
             <div className="flex-grow p-4 md:p-8 w-full md:w-auto overflow-y-auto">
                 <Routes>
+                    <Route path="home" element={<DashboardHome />} />
                     <Route path="ticket" element={<Tickets />} />
                     <Route path="close-ticket" element={<CloseTicket />} />
                     <Route path="ticket/:id" element={<AgentChat />} />
                     <Route path="/ticket/:id/note" element={<Note />} />
-                    
+
                 </Routes>
             </div>
         </div >

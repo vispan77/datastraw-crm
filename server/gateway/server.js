@@ -27,11 +27,11 @@ app.use(cors({
 //wroking path per isko koi bhi access ker sakta hai 
 app.use("/api/auth", proxy(process.env.AUTH_SERVICE));
 app.use("/api/ticket", proxy(process.env.TICKET_SERVICE));
-// app.use("/api/message", proxy(process.env.MESSAGES_SERVICE));
+app.use("/api/message", proxy(process.env.MESSAGES_SERVICE));
 
 //path jo ki header may userId leke jaye or sirf jo loggin user hi access ker
 // app.use("/api/ticket", isAuth, proxyWithHeaders(process.env.TICKET_SERVICE));
-app.use("/api/message", isAuth, proxyWithHeaders(process.env.MESSAGES_SERVICE));
+// app.use("/api/message", isAuth, proxyWithHeaders(process.env.MESSAGES_SERVICE));
 
 
 

@@ -7,15 +7,19 @@ import CreateTicket from './pages/CreateTicket';
 import Home from './pages/Home';
 import TrackTicket from './pages/TrackTicket';
 import Dashboard from './pages/Dashboard';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from './redux/slice/userSlice';
 import getCurrentUser from './features/getCurrentUser';
+import AuthForm from './components/AuthForm';
+
 
 
 
 
 
 function App() {
+
+  const { userData } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -34,7 +38,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/create-ticket" element={<CreateTicket />} />
         <Route path="track-ticket" element={<TrackTicket />} />
-        <Route path="/dashboard/*" element={<Dashboard />} />
+        <Route path="/dashboard/*" element={userData ? <Dashboard /> : <AuthForm />} />
       </Routes>
     </div>
   )

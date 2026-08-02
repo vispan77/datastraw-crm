@@ -37,6 +37,11 @@ function Note() {
     }
 
     const sendNote = async () => {
+
+        if (noteText.length === 0) {
+            return;
+        }
+        
         try {
             const data = await createNote(ticketId, noteText);
             if (notesData.length === 0) {
@@ -82,7 +87,7 @@ function Note() {
                         </button>
                     </div>
 
-                    <h2 className="ml-2 text-xl font-semibold mb-4 text-gray-800 ">
+                    <h2 className="ml-2 text-xl font-bold mb-4 text-gray-800 ">
                         Note
                     </h2>
                 </div>
