@@ -11,6 +11,12 @@ dbConnect();
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+    console.log(req.method, req.originalUrl);
+
+    next();
+});
+
 app.use("/", ticketRouter);
 app.use("/notes", noteRouter)
 
@@ -23,5 +29,5 @@ app.get("/check", (req, res) => {
 
 app.listen(port, () => {
     console.log(`Ticket service is listening on port ${port}`);
-    
+
 })

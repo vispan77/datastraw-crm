@@ -9,6 +9,14 @@ dbConnect();
 
 app.use(express.json());
 
+//check userId
+app.use((req, res, next) => {
+    console.log(req.method, req.originalUrl);
+    console.log("userId in the message service from the",req.headers["x-user-id"]);
+
+    next();
+});
+
 
 app.use("/", messageRouter)
 

@@ -7,10 +7,26 @@ import CreateTicket from './pages/CreateTicket';
 import Home from './pages/Home';
 import TrackTicket from './pages/TrackTicket';
 import Dashboard from './pages/Dashboard';
+import { useDispatch } from 'react-redux';
+import { setUserData } from './redux/slice/userSlice';
+import getCurrentUser from './features/getCurrentUser';
+
+
 
 
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  const getUser = async () => {
+    const data = await getCurrentUser();
+    dispatch(setUserData(data))
+  }
+
+  useEffect(() => {
+    getUser();
+  }, [])
 
   return (
     <div>
